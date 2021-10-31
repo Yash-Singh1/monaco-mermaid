@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc index.ts --lib es2019 --target es6 --downlevelIteration --moduleResolution node",
+    "build": "tsc index.ts --lib es2019 --downlevelIteration && mv index.js browser.js && tsc index.ts --lib es2019 --target es6 --downlevelIteration --moduleResolution node",
     "prepublishOnly": "npm run build"
   },
   "author": "Yash Singh",

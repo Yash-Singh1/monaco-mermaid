@@ -4,3 +4,4 @@ package-lock.json
 
 # Build
 index.js
+browser.js
