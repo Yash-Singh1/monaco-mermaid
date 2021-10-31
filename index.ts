@@ -254,7 +254,7 @@ export default (monacoEditor): void => {
         [/\(+.+?\)+/, 'string'],
         [/-\.+->?/, 'transition'],
         [
-          /(-[-.])([^->]+?)(-{3,}|-{2,}>|\.-+>)/,
+          /(-[-.])([^->][^-]+?)(-{3,}|-{2,}>|\.-+>)/,
           ['transition', 'string', 'transition']
         ],
         [/(==+)([^=]+?)(={3,}|={2,}>)/, ['transition', 'string', 'transition']],
