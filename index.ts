@@ -280,6 +280,17 @@ export default (monacoEditor): void => {
         [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment']
       ],
       classDiagram: [
+        [
+          /(\*|<\|?|o|)(--|\.\.)(\*|\|?>|o|)([ \t]*[a-zA-Z]+[ \t]*)(:)(.*?$)/,
+          [
+            'transition',
+            'transition',
+            'transition',
+            'variable',
+            'delimiter.bracket',
+            'string'
+          ]
+        ],
         [/(?!class\s)([a-zA-Z]+)(\s+[a-zA-Z]+)/, ['type', 'variable']],
         [/(\*|<\|?|o)?(--|\.\.)(\*|\|?>|o)?/, 'transition'],
         [/^\s*class\s(?!.*\{)/, 'keyword'],
