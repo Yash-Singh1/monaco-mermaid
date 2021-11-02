@@ -177,7 +177,7 @@ export default (monacoEditor): void => {
         [/^\s*journey/, 'typeKeyword', 'journey'],
         [/^\s*gantt/, 'typeKeyword', 'gantt'],
         [/^\s*stateDiagram(-v2)?/, 'typeKeyword', 'stateDiagram'],
-        [/^\s*erDiagram/, 'typeKeyword', 'erDiagram'],
+        [/^\s*er(Diagram)?/, 'typeKeyword', 'erDiagram'],
         [/^\s*requirement(Diagram)?/, 'typeKeyword', 'requirementDiagram'],
         [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment']
       ],
