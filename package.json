@@ -6,11 +6,18 @@
   "type": "module",
   "scripts": {
     "build": "tsc index.ts --lib es2019 --downlevelIteration && mv index.js browser.js && tsc index.ts --lib es2019 --target es6 --downlevelIteration --moduleResolution node",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "lint": "prettier --check . && eslint . --ext cjs,ts",
+    "lint:fix": "prettier --write . && eslint . --ext cjs,ts --fix"
   },
   "author": "Yash Singh",
   "license": "MIT",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "eslint": "^8.3.0",
+    "eslint-plugin-es": "^4.1.0",
+    "prettier": "^2.5.0",
     "typescript": "^4.4.4"
   }
 }
