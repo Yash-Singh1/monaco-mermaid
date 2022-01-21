@@ -1,8 +1,16 @@
 name: Lint
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - ready_for_review
 
 jobs:
   lint:
