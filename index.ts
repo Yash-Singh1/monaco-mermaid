@@ -344,6 +344,7 @@ export default (monacoEditor): void => {
       gantt: [
         [/(title)(.*)/, ['keyword', 'string']],
         [/(section)(.*)/, ['typeKeyword', 'string']],
+        [/^\s*([^:\n]*?)(:)/, ['string', 'delimiter.bracket']],
         [
           /[a-zA-Z][\w$]*/,
           {
@@ -353,7 +354,6 @@ export default (monacoEditor): void => {
             }
           }
         ],
-        [/(^\s*.*?)(:)/, ['string', 'delimiter.bracket']],
         [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
         [/:/, 'delimiter.bracket']
       ],
