@@ -418,6 +418,7 @@ export default (monacoEditor): void => {
   monacoEditor.editor.defineTheme('mermaid-dark', {
     base: 'vs-dark',
     inherit: true,
+    colors: {},
     rules: [
       { token: 'typeKeyword', foreground: '9650c8', fontStyle: 'bold' },
       { token: 'transition', foreground: '008800', fontStyle: 'bold' }
@@ -427,6 +428,7 @@ export default (monacoEditor): void => {
   monacoEditor.editor.defineTheme('mermaid', {
     base: 'vs',
     inherit: true,
+    colors: {},
     rules: [
       { token: 'typeKeyword', foreground: '9650c8', fontStyle: 'bold' },
       { token: 'keyword', foreground: '649696' },
