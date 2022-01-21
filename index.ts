@@ -617,6 +617,9 @@ export default (monacoEditor): void => {
       ['(', ')'],
       ['{', '}'],
       ['[', ']']
-    ]
+    ],
+    comments: {
+      lineComment: '%%'
+    }
   });
 };
