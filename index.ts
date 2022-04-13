@@ -137,7 +137,21 @@ export default (monacoEditor): void => {
     gitGraph: {
       typeKeywords: ['gitGraph'],
       blockKeywords: [],
-      keywords: ['commit', 'branch', 'merge', 'reset', 'checkout', 'LR', 'BT'],
+      keywords: [
+        'commit',
+        'branch',
+        'merge',
+        'reset',
+        'checkout',
+        'LR',
+        'BT',
+        'id',
+        'type',
+        'tag',
+        'NORMAL',
+        'REVERSE',
+        'HIGHLIGHT',
+      ],
     },
     pie: {
       typeKeywords: ['pie'],
@@ -431,7 +445,7 @@ export default (monacoEditor): void => {
     rules: [
       { token: 'typeKeyword', foreground: '9650c8', fontStyle: 'bold' },
       { token: 'transition', foreground: '008800', fontStyle: 'bold' },
-      { token: 'identifier', foreground: 'E06C75' },
+      { token: 'identifier', foreground: '9cdcfe' },
     ],
   });
 
@@ -451,7 +465,7 @@ export default (monacoEditor): void => {
       { token: 'comment', foreground: '888c89' },
       { token: 'variable', foreground: 'A22889' },
       { token: 'type', foreground: '2BDEA8' },
-      { token: 'identifier', foreground: 'E06C75' },
+      { token: 'identifier', foreground: '9cdcfe' },
     ],
   });
 
