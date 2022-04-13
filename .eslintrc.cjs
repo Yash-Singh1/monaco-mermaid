@@ -6,6 +6,6 @@ module.exports = {
   plugins: ['@typescript-eslint', 'es'],
   extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
   rules: {
-    'es/no-regexp-lookbehind-assertions': 'error'
-  }
+    'es/no-regexp-lookbehind-assertions': 'error',
+  },
 };
