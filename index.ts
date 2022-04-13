@@ -166,8 +166,14 @@ export default (monacoEditor): void => {
       ),
     tokenizer: {
       root: [
-        [/%%(?=.*%%$)/, { token: 'string', nextEmbedded: 'json' }],
-        [/%%$/, { token: 'string', nextEmbedded: '@pop' }],
+        [
+          /%%(?={)/,
+          {
+            token: 'string',
+            next: '@configDirective',
+            nextEmbedded: 'javascript',
+          },
+        ],
         [/^\s*gitGraph/m, 'typeKeyword', 'gitGraph'],
         [/^\s*info/m, 'typeKeyword', 'info'],
         [/^\s*pie/m, 'typeKeyword', 'pie'],
@@ -179,7 +185,10 @@ export default (monacoEditor): void => {
         [/^\s*stateDiagram(-v2)?/, 'typeKeyword', 'stateDiagram'],
         [/^\s*er(Diagram)?/, 'typeKeyword', 'erDiagram'],
         [/^\s*requirement(Diagram)?/, 'typeKeyword', 'requirementDiagram'],
-        [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
+        [/%%[^${].*$/, 'comment'],
+      ],
+      configDirective: [
+        [/%%$/, { token: 'string', next: '@pop', nextEmbedded: '@pop' }],
       ],
       gitGraph: [
         [/option(?=s)/, { token: 'typeKeyword', next: 'optionsGitGraph' }],
@@ -422,6 +431,7 @@ export default (monacoEditor): void => {
     rules: [
       { token: 'typeKeyword', foreground: '9650c8', fontStyle: 'bold' },
       { token: 'transition', foreground: '008800', fontStyle: 'bold' },
+      { token: 'identifier', foreground: 'E06C75' },
     ],
   });
 
@@ -441,6 +451,7 @@ export default (monacoEditor): void => {
       { token: 'comment', foreground: '888c89' },
       { token: 'variable', foreground: 'A22889' },
       { token: 'type', foreground: '2BDEA8' },
+      { token: 'identifier', foreground: 'E06C75' },
     ],
   });
 
