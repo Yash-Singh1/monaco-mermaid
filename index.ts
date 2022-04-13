@@ -7,7 +7,7 @@ export default (monacoEditor): void => {
     'interfaceRequirement',
     'performanceRequirement',
     'physicalRequirement',
-    'designConstraint'
+    'designConstraint',
   ];
 
   const keywords: {
@@ -38,8 +38,8 @@ export default (monacoEditor): void => {
         'classDef',
         'class',
         'direction',
-        'interpolate'
-      ]
+        'interpolate',
+      ],
     },
     sequenceDiagram: {
       typeKeywords: ['sequenceDiagram'],
@@ -53,7 +53,7 @@ export default (monacoEditor): void => {
         'rect',
         'opt',
         'alt',
-        'rect'
+        'rect',
       ],
       keywords: [
         'participant',
@@ -67,8 +67,8 @@ export default (monacoEditor): void => {
         'deactivate',
         'autonumber',
         'title',
-        'actor'
-      ]
+        'actor',
+      ],
     },
     classDiagram: {
       typeKeywords: ['classDiagram', 'classDiagram-v2'],
@@ -84,8 +84,8 @@ export default (monacoEditor): void => {
         'TB',
         'BT',
         'RL',
-        'LR'
-      ]
+        'LR',
+      ],
     },
     stateDiagram: {
       typeKeywords: ['stateDiagram', 'stateDiagram-v2'],
@@ -98,23 +98,23 @@ export default (monacoEditor): void => {
         'TB',
         'BT',
         'RL',
-        'LR'
-      ]
+        'LR',
+      ],
     },
     erDiagram: {
       typeKeywords: ['erDiagram'],
       blockKeywords: [],
-      keywords: []
+      keywords: [],
     },
     journey: {
       typeKeywords: ['journey'],
       blockKeywords: ['section'],
-      keywords: ['title']
+      keywords: ['title'],
     },
     info: {
       typeKeywords: ['info'],
       blockKeywords: [],
-      keywords: ['showInfo']
+      keywords: ['showInfo'],
     },
     gantt: {
       typeKeywords: ['gantt'],
@@ -126,24 +126,24 @@ export default (monacoEditor): void => {
         'todayMarker',
         'section',
         'excludes',
-        'inclusiveEndDates'
-      ]
+        'inclusiveEndDates',
+      ],
     },
     requirementDiagram: {
       typeKeywords: ['requirement', 'requirementDiagram'],
       blockKeywords: requirementDiagrams.concat('element'),
-      keywords: []
+      keywords: [],
     },
     gitGraph: {
       typeKeywords: ['gitGraph'],
       blockKeywords: [],
-      keywords: ['commit', 'branch', 'merge', 'reset', 'checkout', 'LR', 'BT']
+      keywords: ['commit', 'branch', 'merge', 'reset', 'checkout', 'LR', 'BT'],
     },
     pie: {
       typeKeywords: ['pie'],
       blockKeywords: [],
-      keywords: ['title', 'showData']
-    }
+      keywords: ['title', 'showData'],
+    },
   };
 
   // Register a tokens provider for the mermaid language
@@ -153,14 +153,14 @@ export default (monacoEditor): void => {
         Object.fromEntries(
           Object.entries(entry[1]).map((deepEntry) => [
             entry[0] + deepEntry[0][0].toUpperCase() + deepEntry[0].slice(1),
-            deepEntry[1]
+            deepEntry[1],
           ])
         )
       )
       .reduce(
         (overallKeywords, nextKeyword) => ({
           ...overallKeywords,
-          ...nextKeyword
+          ...nextKeyword,
         }),
         {}
       ),
@@ -179,7 +179,7 @@ export default (monacoEditor): void => {
         [/^\s*stateDiagram(-v2)?/, 'typeKeyword', 'stateDiagram'],
         [/^\s*er(Diagram)?/, 'typeKeyword', 'erDiagram'],
         [/^\s*requirement(Diagram)?/, 'typeKeyword', 'requirementDiagram'],
-        [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment']
+        [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
       ],
       gitGraph: [
         [/option(?=s)/, { token: 'typeKeyword', next: 'optionsGitGraph' }],
@@ -189,13 +189,13 @@ export default (monacoEditor): void => {
           {
             cases: {
               '@gitGraphBlockKeywords': 'typeKeyword',
-              '@gitGraphKeywords': 'keyword'
-            }
-          }
+              '@gitGraphKeywords': 'keyword',
+            },
+          },
         ],
         [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
         [/".*?"/, 'string'],
-        [/\^/, 'delimiter.bracket']
+        [/\^/, 'delimiter.bracket'],
       ],
       optionsGitGraph: [
         [
@@ -203,10 +203,10 @@ export default (monacoEditor): void => {
           {
             token: 'typeKeyword',
             nextEmbedded: 'json',
-            matchOnlyAtLineStart: false
-          }
+            matchOnlyAtLineStart: false,
+          },
         ],
-        ['end', { token: 'typeKeyword', next: '@pop', nextEmbedded: '@pop' }]
+        ['end', { token: 'typeKeyword', next: '@pop', nextEmbedded: '@pop' }],
       ],
       info: [
         [
@@ -214,10 +214,10 @@ export default (monacoEditor): void => {
           {
             cases: {
               '@infoBlockKeywords': 'typeKeyword',
-              '@infoKeywords': 'keyword'
-            }
-          }
-        ]
+              '@infoKeywords': 'keyword',
+            },
+          },
+        ],
       ],
       pie: [
         [/(title)(.*$)/, ['keyword', 'string']],
@@ -226,14 +226,14 @@ export default (monacoEditor): void => {
           {
             cases: {
               '@pieBlockKeywords': 'typeKeyword',
-              '@pieKeywords': 'keyword'
-            }
-          }
+              '@pieKeywords': 'keyword',
+            },
+          },
         ],
         [/".*?"/, 'string'],
         [/\s*\d+/, 'number'],
         [/:/, 'delimiter.bracket'],
-        [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment']
+        [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
       ],
       flowchart: [
         [/[ox]?(--+|==+)[ox]/, 'transition'],
@@ -243,9 +243,9 @@ export default (monacoEditor): void => {
             cases: {
               '@flowchartBlockKeywords': 'typeKeyword',
               '@flowchartKeywords': 'keyword',
-              '@default': 'variable'
-            }
-          }
+              '@default': 'variable',
+            },
+          },
         ],
         [/\|+.+?\|+/, 'string'],
         [/\[+(\\.+?[\\/]|\/.+?[/\\])\]+/, 'string'],
@@ -255,14 +255,14 @@ export default (monacoEditor): void => {
         [/-\.+->?/, 'transition'],
         [
           /(-[-.])([^->][^-]+?)(-{3,}|-{2,}>|\.-+>)/,
-          ['transition', 'string', 'transition']
+          ['transition', 'string', 'transition'],
         ],
         [/(==+)([^=]+?)(={3,}|={2,}>)/, ['transition', 'string', 'transition']],
         [/<?(--+|==+)>|===+|---+/, 'transition'],
         [/:::/, 'transition'],
         [/[;&]/, 'delimiter.bracket'],
         [/".*?"/, 'string'],
-        [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment']
+        [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
       ],
       sequenceDiagram: [
         [
@@ -271,13 +271,13 @@ export default (monacoEditor): void => {
             cases: {
               '@sequenceDiagramBlockKeywords': 'typeKeyword',
               '@sequenceDiagramKeywords': 'keyword',
-              '@default': 'variable'
-            }
-          }
+              '@default': 'variable',
+            },
+          },
         ],
         [/(--?>?>|--?[)x])[+-]?/, 'transition'],
         [/(:)([^:\n]*?$)/, ['delimiter.bracket', 'string']],
-        [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment']
+        [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
       ],
       classDiagram: [
         [
@@ -288,8 +288,8 @@ export default (monacoEditor): void => {
             'transition',
             'variable',
             'delimiter.bracket',
-            'string'
-          ]
+            'string',
+          ],
         ],
         [/(?!class\s)([a-zA-Z]+)(\s+[a-zA-Z]+)/, ['type', 'variable']],
         [/(\*|<\|?|o)?(--|\.\.)(\*|\|?>|o)?/, 'transition'],
@@ -300,18 +300,18 @@ export default (monacoEditor): void => {
             cases: {
               '@classDiagramBlockKeywords': 'typeKeyword',
               '@classDiagramKeywords': 'keyword',
-              '@default': 'variable'
-            }
-          }
+              '@default': 'variable',
+            },
+          },
         ],
         [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
         [
           /(<<)(.+?)(>>)/,
-          ['delimiter.bracket', 'annotation', 'delimiter.bracket']
+          ['delimiter.bracket', 'annotation', 'delimiter.bracket'],
         ],
         [/".*?"/, 'string'],
         [/:::/, 'transition'],
-        [/:|\+|-|#|~|\*\s*$|\$\s*$|\(|\)|{|}/, 'delimiter.bracket']
+        [/:|\+|-|#|~|\*\s*$|\$\s*$|\(|\)|{|}/, 'delimiter.bracket'],
       ],
       journey: [
         [/(title)(.*)/, ['keyword', 'string']],
@@ -322,9 +322,9 @@ export default (monacoEditor): void => {
             cases: {
               '@journeyBlockKeywords': 'typeKeyword',
               '@journeyKeywords': 'keyword',
-              '@default': 'variable'
-            }
-          }
+              '@default': 'variable',
+            },
+          },
         ],
         [
           /(^\s*.+?)(:)(.*?)(:)(.*?)([,$])/,
@@ -334,12 +334,12 @@ export default (monacoEditor): void => {
             'number',
             'delimiter.bracket',
             'variable',
-            'delimiter.bracket'
-          ]
+            'delimiter.bracket',
+          ],
         ],
         [/,/, 'delimiter.bracket'],
         [/(^\s*.+?)(:)([^:]*?)$/, ['string', 'delimiter.bracket', 'variable']],
-        [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment']
+        [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
       ],
       gantt: [
         [/(title)(.*)/, ['keyword', 'string']],
@@ -350,12 +350,12 @@ export default (monacoEditor): void => {
           {
             cases: {
               '@ganttBlockKeywords': 'typeKeyword',
-              '@ganttKeywords': 'keyword'
-            }
-          }
+              '@ganttKeywords': 'keyword',
+            },
+          },
         ],
         [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
-        [/:/, 'delimiter.bracket']
+        [/:/, 'delimiter.bracket'],
       ],
       stateDiagram: [
         [/note[^:]*$/, { token: 'typeKeyword', next: 'stateDiagramNote' }],
@@ -364,7 +364,7 @@ export default (monacoEditor): void => {
         [/(<<)(fork|join|choice)(>>)/, 'annotation'],
         [
           /(\[\[)(fork|join|choice)(]])/,
-          ['delimiter.bracket', 'annotation', 'delimiter.bracket']
+          ['delimiter.bracket', 'annotation', 'delimiter.bracket'],
         ],
         [
           /[a-zA-Z][\w$]*/,
@@ -372,20 +372,20 @@ export default (monacoEditor): void => {
             cases: {
               '@stateDiagramBlockKeywords': 'typeKeyword',
               '@stateDiagramKeywords': 'keyword',
-              '@default': 'variable'
-            }
-          }
+              '@default': 'variable',
+            },
+          },
         ],
         [/".*?"/, 'string'],
         [/(:)([^:\n]*?$)/, ['delimiter.bracket', 'string']],
         [/{|}/, 'delimiter.bracket'],
         [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
         [/-->/, 'transition'],
-        [/\[.*?]/, 'string']
+        [/\[.*?]/, 'string'],
       ],
       stateDiagramNote: [
         [/^\s*end note$/, { token: 'typeKeyword', next: '@pop' }],
-        [/.*/, 'string']
+        [/.*/, 'string'],
       ],
       erDiagram: [
         [/[}|][o|](--|\.\.)[o|][{|]/, 'transition'],
@@ -394,7 +394,7 @@ export default (monacoEditor): void => {
         [/:|{|}/, 'delimiter.bracket'],
         [/([a-zA-Z]+)(\s+[a-zA-Z]+)/, ['type', 'variable']],
         [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
-        [/[a-zA-Z_-][\w$]*/, 'variable']
+        [/[a-zA-Z_-][\w$]*/, 'variable'],
       ],
       requirementDiagram: [
         [/->|<-|-/, 'transition'],
@@ -404,15 +404,15 @@ export default (monacoEditor): void => {
           {
             cases: {
               '@requirementDiagramBlockKeywords': 'typeKeyword',
-              '@default': 'variable'
-            }
-          }
+              '@default': 'variable',
+            },
+          },
         ],
         [/:|{|}|\//, 'delimiter.bracket'],
         [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
-        [/".*?"/, 'string']
-      ]
-    }
+        [/".*?"/, 'string'],
+      ],
+    },
   });
 
   monacoEditor.editor.defineTheme('mermaid-dark', {
@@ -421,8 +421,8 @@ export default (monacoEditor): void => {
     colors: {},
     rules: [
       { token: 'typeKeyword', foreground: '9650c8', fontStyle: 'bold' },
-      { token: 'transition', foreground: '008800', fontStyle: 'bold' }
-    ]
+      { token: 'transition', foreground: '008800', fontStyle: 'bold' },
+    ],
   });
 
   monacoEditor.editor.defineTheme('mermaid', {
@@ -440,8 +440,8 @@ export default (monacoEditor): void => {
       { token: 'number', foreground: '4b4b96' },
       { token: 'comment', foreground: '888c89' },
       { token: 'variable', foreground: 'A22889' },
-      { token: 'type', foreground: '2BDEA8' }
-    ]
+      { token: 'type', foreground: '2BDEA8' },
+    ],
   });
 
   // Register a completion item provider for the mermaid language
@@ -454,7 +454,7 @@ export default (monacoEditor): void => {
           insertText: ['loop ${1:Loop text}', '\t$0', 'end'].join('\n'),
           insertTextRules:
             monacoEditor.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-          documentation: 'Sequence Diagram Loops'
+          documentation: 'Sequence Diagram Loops',
         },
         {
           label: 'alt',
@@ -464,11 +464,11 @@ export default (monacoEditor): void => {
             '\t$0',
             'else',
             '\t',
-            'end'
+            'end',
           ].join('\n'),
           insertTextRules:
             monacoEditor.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-          documentation: 'Alternative Path'
+          documentation: 'Alternative Path',
         },
         {
           label: 'opt',
@@ -476,7 +476,7 @@ export default (monacoEditor): void => {
           insertText: ['opt ${1:Describing text}', '\t$0', 'end'].join('\n'),
           insertTextRules:
             monacoEditor.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-          documentation: 'Optional Path'
+          documentation: 'Optional Path',
         },
         {
           label: 'par',
@@ -488,11 +488,11 @@ export default (monacoEditor): void => {
             '\t',
             'and ${3:[Action 3]}',
             '\t',
-            'end'
+            'end',
           ].join('\n'),
           insertTextRules:
             monacoEditor.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-          documentation: 'Parallel Actions'
+          documentation: 'Parallel Actions',
         },
         {
           label: 'rect',
@@ -500,7 +500,7 @@ export default (monacoEditor): void => {
           insertText: ['rect ${1:rgb(0, 255, 0)}', '\t$0', 'end'].join('\n'),
           insertTextRules:
             monacoEditor.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-          documentation: 'Background Color'
+          documentation: 'Background Color',
         },
         {
           label: 'subgraph',
@@ -508,7 +508,7 @@ export default (monacoEditor): void => {
           insertText: ['subgraph ${1:title}', '\t$0', 'end'].join('\n'),
           insertTextRules:
             monacoEditor.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-          documentation: 'Subgraph'
+          documentation: 'Subgraph',
         },
         {
           label: 'class',
@@ -516,7 +516,7 @@ export default (monacoEditor): void => {
           insertText: ['class ${1:className} {', '\t$0', '}'].join('\n'),
           insertTextRules:
             monacoEditor.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-          documentation: 'Class'
+          documentation: 'Class',
         },
         {
           label: 'state',
@@ -524,7 +524,7 @@ export default (monacoEditor): void => {
           insertText: ['state ${1:stateName} {', '\t$0', '}'].join('\n'),
           insertTextRules:
             monacoEditor.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-          documentation: 'State'
+          documentation: 'State',
         },
         {
           label: 'note',
@@ -534,7 +534,7 @@ export default (monacoEditor): void => {
           ),
           insertTextRules:
             monacoEditor.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-          documentation: 'State'
+          documentation: 'State',
         },
         {
           label: 'section',
@@ -542,7 +542,7 @@ export default (monacoEditor): void => {
           insertText: ['section ${1:Go to work}', '\t$0'].join('\n'),
           insertTextRules:
             monacoEditor.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-          documentation: 'User-journey Section'
+          documentation: 'User-journey Section',
         },
         {
           label: 'element',
@@ -550,7 +550,7 @@ export default (monacoEditor): void => {
           insertText: ['element ${1:test_entity} {', '\t$0', '}'].join('\n'),
           insertTextRules:
             monacoEditor.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-          documentation: 'Requirement Diagram Element'
+          documentation: 'Requirement Diagram Element',
         },
         {
           label: 'options',
@@ -558,7 +558,7 @@ export default (monacoEditor): void => {
           insertText: ['options', '{', '    $0', '}', 'end'].join('\n'),
           insertTextRules:
             monacoEditor.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-          documentation: 'Git Graph Options'
+          documentation: 'Git Graph Options',
         },
         ...requirementDiagrams.map((requirementDiagramType) => ({
           label: requirementDiagramType,
@@ -569,14 +569,14 @@ export default (monacoEditor): void => {
             '\ttext: the test text.',
             '\trisk: high',
             '\tverifyMethod: test',
-            '}'
+            '}',
           ].join('\n'),
           insertTextRules:
             monacoEditor.languages.CompletionItemInsertTextRule.InsertAsSnippet,
           documentation: requirementDiagramType
             .split(/(?=[A-Z])/)
             .map((part) => part[0].toUpperCase() + part.slice(1))
-            .join(' ')
+            .join(' '),
         })),
         ...[
           ...new Set(
@@ -587,39 +587,39 @@ export default (monacoEditor): void => {
                   .map((entry) => entry[1])
               )
               .flat(2)
-          )
+          ),
         ].map((keyword) => ({
           label: keyword,
           kind: monacoEditor.languages.CompletionItemKind.Keyword,
-          insertText: keyword
-        }))
+          insertText: keyword,
+        })),
       ];
       return { suggestions: suggestions };
-    }
+    },
   });
 
   monacoEditor.languages.setLanguageConfiguration('mermaid', {
     autoClosingPairs: [
       {
         open: '(',
-        close: ')'
+        close: ')',
       },
       {
         open: '{',
-        close: '}'
+        close: '}',
       },
       {
         open: '[',
-        close: ']'
-      }
+        close: ']',
+      },
     ],
     brackets: [
       ['(', ')'],
       ['{', '}'],
-      ['[', ']']
+      ['[', ']'],
     ],
     comments: {
-      lineComment: '%%'
-    }
+      lineComment: '%%',
+    },
   });
 };
