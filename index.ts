@@ -303,6 +303,7 @@ export default (monacoEditor): void => {
         [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
       ],
       classDiagram: [
+        [/(^\s*(?:title|accDescription))(\s+.*$)/, ['keyword', 'string']],
         [
           /(\*|<\|?|o|)(--|\.\.)(\*|\|?>|o|)([ \t]*[a-zA-Z]+[ \t]*)(:)(.*?$)/,
           [
