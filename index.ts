@@ -243,7 +243,7 @@ export default (monacoEditor): void => {
         ],
       ],
       pie: [
-        [/(title)(.*$)/, ['keyword', 'string']],
+        [/(title|accDescription)(.*$)/, ['keyword', 'string']],
         [
           /[a-zA-Z][\w$]*/,
           {
