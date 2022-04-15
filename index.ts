@@ -68,6 +68,7 @@ export default (monacoEditor): void => {
         'autonumber',
         'title',
         'actor',
+        'accDescription',
       ],
     },
     classDiagram: {
@@ -85,6 +86,8 @@ export default (monacoEditor): void => {
         'BT',
         'RL',
         'LR',
+        'title',
+        'accDescription',
       ],
     },
     stateDiagram: {
@@ -104,7 +107,7 @@ export default (monacoEditor): void => {
     erDiagram: {
       typeKeywords: ['erDiagram'],
       blockKeywords: [],
-      keywords: [],
+      keywords: ['title', 'accDescription'],
     },
     journey: {
       typeKeywords: ['journey'],
@@ -156,7 +159,7 @@ export default (monacoEditor): void => {
     pie: {
       typeKeywords: ['pie'],
       blockKeywords: [],
-      keywords: ['title', 'showData'],
+      keywords: ['title', 'showData', 'title', 'accDescription'],
     },
   };
 
@@ -288,6 +291,7 @@ export default (monacoEditor): void => {
         [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
       ],
       sequenceDiagram: [
+        [/(title:?|accDescription)(.*$)/, ['keyword', 'string']],
         [
           /[a-zA-Z][\w$]*/,
           {
@@ -412,6 +416,7 @@ export default (monacoEditor): void => {
         [/.*/, 'string'],
       ],
       erDiagram: [
+        [/(title|accDescription)(.*$)/, ['keyword', 'string']],
         [/[}|][o|](--|\.\.)[o|][{|]/, 'transition'],
         [/".*?"/, 'string'],
         [/(:)(.*?$)/, ['delimiter.bracket', 'string']],
