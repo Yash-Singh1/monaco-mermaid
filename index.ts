@@ -1,4 +1,6 @@
-export default (monacoEditor): void => {
+import type * as Monaco from 'monaco-editor';
+
+export default (monacoEditor: typeof Monaco): void => {
   monacoEditor.languages.register({ id: 'mermaid' });
 
   const requirementDiagrams = [
@@ -69,6 +71,8 @@ export default (monacoEditor): void => {
         'title',
         'actor',
         'accDescription',
+        'link',
+        'links',
       ],
     },
     classDiagram: {
@@ -229,7 +233,6 @@ export default (monacoEditor): void => {
           {
             token: 'typeKeyword',
             nextEmbedded: 'json',
-            matchOnlyAtLineStart: false,
           },
         ],
         ['end', { token: 'typeKeyword', next: '@pop', nextEmbedded: '@pop' }],
@@ -291,7 +294,30 @@ export default (monacoEditor): void => {
         [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
       ],
       sequenceDiagram: [
-        [/(title:?|accDescription)(.*$)/, ['keyword', 'string']],
+        [/(title:?|accDescription)([^\r\n;]*$)/, ['keyword', 'string']],
+        [
+          /(link\s+)(.*?)(:)(\s*.*?)(\s*@)(\s*[^\r\n;]+)/,
+          [
+            'keyword',
+            'variable',
+            'delimiter.bracket',
+            'string',
+            'delimiter.bracket',
+            'string',
+          ],
+        ],
+        [
+          /((?:links|properties)\s+)([^\r\n:]*?)(:\s+)/,
+          [
+            { token: 'keyword' },
+            { token: 'variable' },
+            {
+              token: 'delimiter.bracket',
+              nextEmbedded: 'javascript',
+              next: '@sequenceDiagramLinksProps',
+            },
+          ],
+        ],
         [
           /[a-zA-Z][\w$]*/,
           {
@@ -305,6 +331,13 @@ export default (monacoEditor): void => {
         [/(--?>?>|--?[)x])[+-]?/, 'transition'],
         [/(:)([^:\n]*?$)/, ['delimiter.bracket', 'string']],
         [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
+      ],
+      sequenceDiagramLinksProps: [
+        // [/^:/, { token: 'delimiter.bracket', nextEmbedded: 'json' }],
+        [
+          /$|;/,
+          { nextEmbedded: '@pop', next: '@pop', token: 'delimiter.bracket' },
+        ],
       ],
       classDiagram: [
         [/(^\s*(?:title|accDescription))(\s+.*$)/, ['keyword', 'string']],
@@ -477,7 +510,14 @@ export default (monacoEditor): void => {
 
   // Register a completion item provider for the mermaid language
   monacoEditor.languages.registerCompletionItemProvider('mermaid', {
-    provideCompletionItems: () => {
+    provideCompletionItems: (model, position) => {
+      const word = model.getWordUntilPosition(position);
+      const range = {
+        startLineNumber: position.lineNumber,
+        endLineNumber: position.lineNumber,
+        startColumn: word.startColumn,
+        endColumn: word.endColumn,
+      };
       const suggestions = [
         {
           label: 'loop',
@@ -625,7 +665,12 @@ export default (monacoEditor): void => {
           insertText: keyword,
         })),
       ];
-      return { suggestions: suggestions };
+      return {
+        suggestions: suggestions.map((suggestion) => ({
+          ...suggestion,
+          range,
+        })),
+      };
     },
   });
 
