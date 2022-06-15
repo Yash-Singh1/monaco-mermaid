@@ -92,6 +92,7 @@ export default (monacoEditor: typeof Monaco): void => {
         'LR',
         'title',
         'accDescription',
+        'order',
       ],
     },
     stateDiagram: {
@@ -213,6 +214,10 @@ export default (monacoEditor: typeof Monaco): void => {
       ],
       gitGraph: [
         [/option(?=s)/, { token: 'typeKeyword', next: 'optionsGitGraph' }],
+        [
+          /(^\s*branch)(.*?)(\s+order)(:\s*)(\d+\s*$)/,
+          ['keyword', 'variable', 'keyword', 'delimiter.bracket', 'number'],
+        ],
         [/(^\s*branch|reset|merge|checkout)(.*$)/, ['keyword', 'variable']],
         [
           /[a-zA-Z][\w$]*/,
