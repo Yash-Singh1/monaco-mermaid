@@ -146,7 +146,10 @@ export default (monacoEditor: typeof Monaco): void => {
       typeKeywords: ['gitGraph'],
       blockKeywords: [],
       keywords: [
+        'accTitle',
+        'accDescr',
         'commit',
+        'cherry-pick',
         'branch',
         'merge',
         'reset',
@@ -154,6 +157,7 @@ export default (monacoEditor: typeof Monaco): void => {
         'LR',
         'BT',
         'id',
+        'msg',
         'type',
         'tag',
         'NORMAL',
@@ -214,6 +218,10 @@ export default (monacoEditor: typeof Monaco): void => {
       ],
       gitGraph: [
         [/option(?=s)/, { token: 'typeKeyword', next: 'optionsGitGraph' }],
+        [
+          /(accTitle|accDescr)(\s*:)(\s*[^\r\n]+$)/,
+          ['keyword', 'delimiter.bracket', 'string'],
+        ],
         [
           /(^\s*branch)(.*?)(\s+order)(:\s*)(\d+\s*$)/,
           ['keyword', 'variable', 'keyword', 'delimiter.bracket', 'number'],
