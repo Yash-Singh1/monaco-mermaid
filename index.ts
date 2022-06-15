@@ -295,6 +295,12 @@ export default (monacoEditor: typeof Monaco): void => {
       ],
       sequenceDiagram: [
         [/(title:?|accDescription)([^\r\n;]*$)/, ['keyword', 'string']],
+        [/(autonumber)([^\r\n\S]+off[^\r\n\S]*$)/, ['keyword', 'keyword']],
+        [
+          /(autonumber)([^\r\n\S]+\d+[^\r\n\S]+\d+[^\r\n\S]*$)/,
+          ['keyword', 'number'],
+        ],
+        [/(autonumber)([^\r\n\S]+\d+[^\r\n\S]*$)/, ['keyword', 'number']],
         [
           /(link\s+)(.*?)(:)(\s*.*?)(\s*@)(\s*[^\r\n;]+)/,
           [
