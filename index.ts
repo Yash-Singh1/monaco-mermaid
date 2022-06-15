@@ -170,6 +170,17 @@ export default (monacoEditor: typeof Monaco): void => {
       blockKeywords: [],
       keywords: ['title', 'showData', 'title', 'accDescription'],
     },
+    c4Diagram: {
+      typeKeywords: [
+        'C4Context',
+        'C4Container',
+        'C4Component',
+        'C4Dynamic',
+        'C4Deployment',
+      ],
+      blockKeywords: [],
+      keywords: [],
+    },
   };
 
   // Register a tokens provider for the mermaid language
@@ -211,6 +222,11 @@ export default (monacoEditor: typeof Monaco): void => {
         [/^\s*stateDiagram(-v2)?/, 'typeKeyword', 'stateDiagram'],
         [/^\s*er(Diagram)?/, 'typeKeyword', 'erDiagram'],
         [/^\s*requirement(Diagram)?/, 'typeKeyword', 'requirementDiagram'],
+        [
+          /^\s*(C4Context|C4Container|C4Component|C4Dynamic|C4Deployment)/m,
+          'typeKeyword',
+          'flowchart',
+        ],
         [/%%[^${].*$/, 'comment'],
       ],
       configDirective: [
@@ -492,6 +508,17 @@ export default (monacoEditor: typeof Monaco): void => {
         [/:|{|}|\//, 'delimiter.bracket'],
         [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
         [/".*?"/, 'string'],
+      ],
+      c4Diagram: [
+        [
+          /[a-zA-Z_-][\w$]*/,
+          {
+            cases: {
+              '@c4DiagramBlockKeywords': 'typeKeyword',
+              '@default': 'variable',
+            },
+          },
+        ],
       ],
     },
   });
