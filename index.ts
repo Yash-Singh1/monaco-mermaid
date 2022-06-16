@@ -574,10 +574,7 @@ export default (monacoEditor: typeof Monaco): void => {
       ],
       c4DiagramParenthesis: [
         [/,/, 'delimiter.bracket'],
-        [
-          /\)/,
-          { next: '@pop', token: 'delimiter.bracket' },
-        ],
+        [/\)/, { next: '@pop', token: 'delimiter.bracket' }],
         [/[^,)]/, 'string'],
       ],
     },
