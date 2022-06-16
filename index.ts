@@ -170,6 +170,66 @@ export default (monacoEditor: typeof Monaco): void => {
       blockKeywords: [],
       keywords: ['title', 'showData', 'title', 'accDescription'],
     },
+    c4Diagram: {
+      typeKeywords: [
+        'C4Context',
+        'C4Container',
+        'C4Component',
+        'C4Dynamic',
+        'C4Deployment',
+      ],
+      blockKeywords: [
+        'Boundary',
+        'Enterprise_Boundary',
+        'System_Boundary',
+        'Container_Boundary',
+        'Node',
+        'Node_L',
+        'Node_R',
+      ],
+      keywords: [
+        'title',
+        'accDescription',
+        'direction',
+        'TB',
+        'BT',
+        'RL',
+        'LR',
+        'Person_Ext',
+        'Person',
+        'SystemQueue_Ext',
+        'SystemDb_Ext',
+        'System_Ext',
+        'SystemQueue',
+        'SystemDb',
+        'System',
+        'ContainerQueue_Ext',
+        'ContainerDb_Ext',
+        'Container_Ext',
+        'ContainerQueue',
+        'ContainerDb',
+        'Container',
+        'ComponentQueue_Ext',
+        'ComponentDb_Ext',
+        'Component_Ext',
+        'ComponentQueue',
+        'ComponentDb',
+        'Component',
+        'Deployment_Node',
+        'Rel',
+        'BiRel',
+        'Rel_Up',
+        'Rel_U',
+        'Rel_Down',
+        'Rel_D',
+        'Rel_Left',
+        'Rel_L',
+        'Rel_Right',
+        'Rel_R',
+        'Rel_Back',
+        'RelIndex',
+      ],
+    },
   };
 
   // Register a tokens provider for the mermaid language
@@ -211,6 +271,11 @@ export default (monacoEditor: typeof Monaco): void => {
         [/^\s*stateDiagram(-v2)?/, 'typeKeyword', 'stateDiagram'],
         [/^\s*er(Diagram)?/, 'typeKeyword', 'erDiagram'],
         [/^\s*requirement(Diagram)?/, 'typeKeyword', 'requirementDiagram'],
+        [
+          /^\s*(C4Context|C4Container|C4Component|C4Dynamic|C4Deployment)/m,
+          'typeKeyword',
+          'c4Diagram',
+        ],
         [/%%[^${].*$/, 'comment'],
       ],
       configDirective: [
@@ -493,6 +558,25 @@ export default (monacoEditor: typeof Monaco): void => {
         [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
         [/".*?"/, 'string'],
       ],
+      c4Diagram: [
+        [/(title|accDescription)(.*$)/, ['keyword', 'string']],
+        [/\(/, { token: 'delimiter.bracket', next: 'c4DiagramParenthesis' }],
+        [
+          /[a-zA-Z_-][\w$]*/,
+          {
+            cases: {
+              '@c4DiagramBlockKeywords': 'typeKeyword',
+              '@c4DiagramKeywords': 'keyword',
+              '@default': 'variable',
+            },
+          },
+        ],
+      ],
+      c4DiagramParenthesis: [
+        [/,/, 'delimiter.bracket'],
+        [/\)/, { next: '@pop', token: 'delimiter.bracket' }],
+        [/[^,)]/, 'string'],
+      ],
     },
   });
 
@@ -650,6 +734,18 @@ export default (monacoEditor: typeof Monaco): void => {
             monacoEditor.languages.CompletionItemInsertTextRule.InsertAsSnippet,
           documentation: 'Git Graph Options',
         },
+        ...keywords.c4Diagram.blockKeywords.map((containerType) => ({
+          label: containerType,
+          kind: monacoEditor.languages.CompletionItemKind.Snippet,
+          insertText: [
+            containerType + ' (${1:boundary_id}, "New Boundary") {',
+            '    $0',
+            '}',
+          ].join('\n'),
+          insertTextRules:
+            monacoEditor.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+          documentation: 'C4 Diagram ' + containerType + ' Boundary',
+        })),
         ...requirementDiagrams.map((requirementDiagramType) => ({
           label: requirementDiagramType,
           kind: monacoEditor.languages.CompletionItemKind.Snippet,
