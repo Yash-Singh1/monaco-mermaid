@@ -274,7 +274,7 @@ export default (monacoEditor: typeof Monaco): void => {
         [
           /^\s*(C4Context|C4Container|C4Component|C4Dynamic|C4Deployment)/m,
           'typeKeyword',
-          'flowchart',
+          'c4Diagram',
         ],
         [/%%[^${].*$/, 'comment'],
       ],
@@ -560,17 +560,7 @@ export default (monacoEditor: typeof Monaco): void => {
       ],
       c4Diagram: [
         [/(title|accDescription)(.*$)/, ['keyword', 'string']],
-        [
-          /(\(\s*)(((.*?)(,?))+?)(\s*\))/,
-          [
-            'delimiter.bracket',
-            'delimiter.bracket',
-            'delimiter.bracket',
-            'string',
-            'delimiter.bracket',
-            'delimiter.bracket',
-          ],
-        ],
+        [/\(/, { token: 'delimiter.bracket', next: 'c4DiagramParenthesis' }],
         [
           /[a-zA-Z_-][\w$]*/,
           {
@@ -581,6 +571,14 @@ export default (monacoEditor: typeof Monaco): void => {
             },
           },
         ],
+      ],
+      c4DiagramParenthesis: [
+        [/,/, 'delimiter.bracket'],
+        [
+          /\)/,
+          { next: '@pop', token: 'delimiter.bracket' },
+        ],
+        [/[^,)]/, 'string'],
       ],
     },
   });
