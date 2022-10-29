@@ -292,7 +292,10 @@ export default (monacoEditor: typeof Monaco): void => {
           ['keyword', 'variable', 'keyword', 'delimiter.bracket', 'number'],
         ],
         [/".*?"/, 'string'],
-        [/(^\s*)(branch|reset|merge|checkout)(\s*\S+)/m, ['delimiter.bracket', 'keyword', 'variable']],
+        [
+          /(^\s*)(branch|reset|merge|checkout)(\s*\S+)/m,
+          ['delimiter.bracket', 'keyword', 'variable'],
+        ],
         [
           /[a-zA-Z][\w$]*/,
           {
