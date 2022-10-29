@@ -1,6 +1,6 @@
 {
   "name": "monaco-mermaid",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Monaco language and theme support for mermaidJS",
   "main": "index.js",
   "type": "module",
