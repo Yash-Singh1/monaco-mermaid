@@ -9,5 +9,5 @@ The ID of the language created will be `mermaid`. There will also be two themes 
 ```js
 import initEditor from 'monaco-mermaid';
 
-initEditor(); // Defines required themes and languages
+initEditor(monacoEditor); // Defines required themes and languages on given `monacoEditor`
 ```
