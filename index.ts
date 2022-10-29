@@ -291,7 +291,8 @@ export default (monacoEditor: typeof Monaco): void => {
           /(^\s*branch)(.*?)(\s+order)(:\s*)(\d+\s*$)/,
           ['keyword', 'variable', 'keyword', 'delimiter.bracket', 'number'],
         ],
-        [/(^\s*branch|reset|merge|checkout)(.*$)/, ['keyword', 'variable']],
+        [/".*?"/, 'string'],
+        [/(^\s*)(branch|reset|merge|checkout)(\s*\S+)/m, ['delimiter.bracket', 'keyword', 'variable']],
         [
           /[a-zA-Z][\w$]*/,
           {
@@ -302,7 +303,6 @@ export default (monacoEditor: typeof Monaco): void => {
           },
         ],
         [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
-        [/".*?"/, 'string'],
         [/\^/, 'delimiter.bracket'],
       ],
       optionsGitGraph: [
