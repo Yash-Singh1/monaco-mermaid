@@ -232,6 +232,15 @@ export default (monacoEditor: typeof Monaco): void => {
     },
   };
 
+  const configDirectiveHandler = [
+    /^\s*%%(?={)/,
+    {
+      token: 'string',
+      next: '@configDirective',
+      nextEmbedded: 'javascript',
+    },
+  ] as Monaco.languages.IShortMonarchLanguageRule1;
+
   // Register a tokens provider for the mermaid language
   monacoEditor.languages.setMonarchTokensProvider('mermaid', {
     ...Object.entries(keywords)
@@ -252,14 +261,6 @@ export default (monacoEditor: typeof Monaco): void => {
       ),
     tokenizer: {
       root: [
-        [
-          /%%(?={)/,
-          {
-            token: 'string',
-            next: '@configDirective',
-            nextEmbedded: 'javascript',
-          },
-        ],
         [/^\s*gitGraph/m, 'typeKeyword', 'gitGraph'],
         [/^\s*info/m, 'typeKeyword', 'info'],
         [/^\s*pie/m, 'typeKeyword', 'pie'],
@@ -276,12 +277,14 @@ export default (monacoEditor: typeof Monaco): void => {
           'typeKeyword',
           'c4Diagram',
         ],
+        configDirectiveHandler,
         [/%%[^${].*$/, 'comment'],
       ],
       configDirective: [
         [/%%$/, { token: 'string', next: '@pop', nextEmbedded: '@pop' }],
       ],
       gitGraph: [
+        configDirectiveHandler,
         [/option(?=s)/, { token: 'typeKeyword', next: 'optionsGitGraph' }],
         [
           /(accTitle|accDescr)(\s*:)(\s*[^\r\n]+$)/,
@@ -330,6 +333,7 @@ export default (monacoEditor: typeof Monaco): void => {
         ],
       ],
       pie: [
+        configDirectiveHandler,
         [/(title|accDescription)(.*$)/, ['keyword', 'string']],
         [
           /[a-zA-Z][\w$]*/,
@@ -346,6 +350,7 @@ export default (monacoEditor: typeof Monaco): void => {
         [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
       ],
       flowchart: [
+        configDirectiveHandler,
         [/[ox]?(--+|==+)[ox]/, 'transition'],
         [
           /[a-zA-Z][\w$]*/,
@@ -375,6 +380,7 @@ export default (monacoEditor: typeof Monaco): void => {
         [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
       ],
       sequenceDiagram: [
+        configDirectiveHandler,
         [/(title:?|accDescription)([^\r\n;]*$)/, ['keyword', 'string']],
         [/(autonumber)([^\r\n\S]+off[^\r\n\S]*$)/, ['keyword', 'keyword']],
         [
@@ -427,6 +433,7 @@ export default (monacoEditor: typeof Monaco): void => {
         ],
       ],
       classDiagram: [
+        configDirectiveHandler,
         [/(^\s*(?:title|accDescription))(\s+.*$)/, ['keyword', 'string']],
         [
           /(\*|<\|?|o|)(--|\.\.)(\*|\|?>|o|)([ \t]*[a-zA-Z]+[ \t]*)(:)(.*?$)/,
@@ -462,6 +469,7 @@ export default (monacoEditor: typeof Monaco): void => {
         [/:|\+|-|#|~|\*\s*$|\$\s*$|\(|\)|{|}/, 'delimiter.bracket'],
       ],
       journey: [
+        configDirectiveHandler,
         [/(title)(.*)/, ['keyword', 'string']],
         [/(section)(.*)/, ['typeKeyword', 'string']],
         [
@@ -490,6 +498,7 @@ export default (monacoEditor: typeof Monaco): void => {
         [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
       ],
       gantt: [
+        configDirectiveHandler,
         [/(title)(.*)/, ['keyword', 'string']],
         [/(section)(.*)/, ['typeKeyword', 'string']],
         [/^\s*([^:\n]*?)(:)/, ['string', 'delimiter.bracket']],
@@ -506,6 +515,7 @@ export default (monacoEditor: typeof Monaco): void => {
         [/:/, 'delimiter.bracket'],
       ],
       stateDiagram: [
+        configDirectiveHandler,
         [/note[^:]*$/, { token: 'typeKeyword', next: 'stateDiagramNote' }],
         ['hide empty description', 'keyword'],
         [/^\s*state\s(?!.*\{)/, 'keyword'],
@@ -536,6 +546,7 @@ export default (monacoEditor: typeof Monaco): void => {
         [/.*/, 'string'],
       ],
       erDiagram: [
+        configDirectiveHandler,
         [/(title|accDescription)(.*$)/, ['keyword', 'string']],
         [/[}|][o|](--|\.\.)[o|][{|]/, 'transition'],
         [/".*?"/, 'string'],
@@ -546,6 +557,7 @@ export default (monacoEditor: typeof Monaco): void => {
         [/[a-zA-Z_-][\w$]*/, 'variable'],
       ],
       requirementDiagram: [
+        configDirectiveHandler,
         [/->|<-|-/, 'transition'],
         [/(\d+\.)*\d+/, 'number'],
         [
@@ -562,6 +574,7 @@ export default (monacoEditor: typeof Monaco): void => {
         [/".*?"/, 'string'],
       ],
       c4Diagram: [
+        configDirectiveHandler,
         [/(title|accDescription)(.*$)/, ['keyword', 'string']],
         [/\(/, { token: 'delimiter.bracket', next: 'c4DiagramParenthesis' }],
         [
@@ -574,6 +587,7 @@ export default (monacoEditor: typeof Monaco): void => {
             },
           },
         ],
+        [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
       ],
       c4DiagramParenthesis: [
         [/,/, 'delimiter.bracket'],
