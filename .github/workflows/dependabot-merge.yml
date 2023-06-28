@@ -23,7 +23,7 @@ jobs:
       - name: Dependabot metadata
         if: steps.wait-for-build.outputs.conclusion == 'success'
         id: metadata
-        uses: dependabot/fetch-metadata@v1.5.1
+        uses: dependabot/fetch-metadata@v1.6.0
         with:
           github-token: '${{ secrets.GITHUB_TOKEN }}'
 
