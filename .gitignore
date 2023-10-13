@@ -5,3 +5,4 @@ package-lock.json
 # Build
 index.js
 browser.js
+index.d.ts
