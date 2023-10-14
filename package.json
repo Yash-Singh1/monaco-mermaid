@@ -4,8 +4,9 @@
   "description": "Monaco language and theme support for mermaidJS",
   "main": "index.js",
   "type": "module",
+  "types": "index.d.ts",
   "scripts": {
-    "build": "tsc index.ts --lib es2019,dom --downlevelIteration && mv index.js browser.js && tsc index.ts --lib es2019,dom --target es6 --downlevelIteration --moduleResolution node",
+    "build": "tsc index.ts --declaration true --lib es2019,dom --downlevelIteration && mv index.js browser.js && tsc index.ts --lib es2019,dom --target es6 --downlevelIteration --moduleResolution node",
     "dev": "npm run build && watch -p ./index.ts -p ./package.json -c \"npm run build\"",
     "prepublishOnly": "npm run build",
     "lint": "prettier --check . && eslint . --ext cjs,ts",
